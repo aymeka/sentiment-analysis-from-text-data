@@ -7,7 +7,6 @@ from sklearn.model_selection import train_test_split
 from data import data
 import matplotlib.pyplot as plt
 
-# Mikrofonu kullanarak metin alımı
 def listen_microphone():
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
@@ -22,7 +21,6 @@ def listen_microphone():
         print(f"Ses hizmeti ile iletişim kurulamadı: {e}")
     return ""
 
-# Özellik çıkarımı için metin işleme
 def get_features(text):
     words = word_tokenize(text.lower())
     stop_words = set(stopwords.words('turkish'))
@@ -53,7 +51,6 @@ for classifier_type in classifiers:
                                   [classifier.classify(features) for (features, label) in test_set])
         accuracies[classifier_type.__name__].append(accuracy)
 
-# Grafik oluşturma
 plt.figure(figsize=(10, 6))
 for classifier_name, acc_values in accuracies.items():
     plt.plot(range(1, len(acc_values) + 1), acc_values, marker='o', label=classifier_name)
@@ -65,7 +62,6 @@ plt.grid(True)
 plt.tight_layout()
 plt.show()
 
-# Mikrofondan metni al ve en yüksek doğruluk oranına sahip olan sınıflandırıcı ile duygu analizi yap
 text_to_analyze = listen_microphone()
 if text_to_analyze:
     print(f"Metin: '{text_to_analyze}'")
